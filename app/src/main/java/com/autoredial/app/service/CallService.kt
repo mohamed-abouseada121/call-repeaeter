@@ -29,6 +29,7 @@ class CallService : Service() {
     private var waitTimeMs: Long = 5000L
     private var attemptsCount: Int = 0
     private var isRunning: Boolean = false
+    private var lastCallTime: Long = 0
 
     private val handler = Handler(Looper.getMainLooper())
     private var makeCallRunnable: Runnable? = null
@@ -74,6 +75,7 @@ class CallService : Service() {
         }
 
         attemptsCount++
+        lastCallTime = System.currentTimeMillis()
         updateNotification(getString(R.string.status_calling))
 
         val callIntent = Intent(Intent.ACTION_CALL).apply {
@@ -93,7 +95,7 @@ class CallService : Service() {
         handler.postDelayed({
             if (!isRunning) return@postDelayed
             
-            val wasAnswered = CallLogHelper.wasLastCallAnswered(this, phoneNumber)
+            val wasAnswered = CallLogHelper.wasLastCallAnswered(this, phoneNumber, lastCallTime)
             if (wasAnswered) {
                 Toast.makeText(this, getString(R.string.status_answered), Toast.LENGTH_LONG).show()
                 updateNotification(getString(R.string.status_answered))

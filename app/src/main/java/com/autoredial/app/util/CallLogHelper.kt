@@ -8,13 +8,16 @@ import android.telephony.PhoneNumberUtils
 object CallLogHelper {
     
     @SuppressLint("Range")
-    fun wasLastCallAnswered(context: Context, targetNumber: String): Boolean {
+    fun wasLastCallAnswered(context: Context, targetNumber: String, afterTime: Long): Boolean {
         try {
+            val selection = "${CallLog.Calls.DATE} >= ?"
+            val selectionArgs = arrayOf((afterTime - 5000).toString()) // 5 seconds margin
+            
             val cursor = context.contentResolver.query(
                 CallLog.Calls.CONTENT_URI,
                 arrayOf(CallLog.Calls.NUMBER, CallLog.Calls.DURATION, CallLog.Calls.TYPE),
-                null,
-                null,
+                selection,
+                selectionArgs,
                 CallLog.Calls.DATE + " DESC"
             )
 
