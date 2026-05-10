@@ -46,7 +46,7 @@ object NotificationHelper {
         )
 
         return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(android.R.drawable.sym_def_app_icon)
             .setContentTitle(context.getString(R.string.app_name))
             .setContentText("$status - ${context.getString(R.string.attempts_count, attempts)}")
             .setPriority(NotificationCompat.PRIORITY_LOW)
