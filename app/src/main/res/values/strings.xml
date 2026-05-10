@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">إعادة الاتصال التلقائي</string>
+    <string name="start_call">ابدأ الاتصال</string>
+    <string name="stop_call">أوقف</string>
+    <string name="phone_number_hint">رقم الهاتف</string>
+    <string name="max_attempts">الحد الأقصى للمحاولات (0 = بدون حد)</string>
+    <string name="wait_time">وقت الانتظار بين المحاولات (ثواني)</string>
+    <string name="status_idle">جاهز</string>
+    <string name="status_calling">جاري الاتصال...</string>
+    <string name="status_waiting">انتظار...</string>
+    <string name="status_answered">تم الرد!</string>
+    <string name="attempts_count">المحاولات: %1$d</string>
+    <string name="permission_required">يجب منح الأذونات المطلوبة لعمل التطبيق.</string>
+    <string name="grant_permissions">منح الأذونات</string>
+    <string name="notification_channel_name">خدمة إعادة الاتصال</string>
+    <string name="notification_channel_desc">إشعارات حالة إعادة الاتصال التلقائي</string>
+</resources>
