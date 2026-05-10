@@ -83,6 +83,7 @@ fun MainScreen() {
     var phoneNumber by remember { mutableStateOf("") }
     var maxAttempts by remember { mutableFloatStateOf(0f) }
     var waitTime by remember { mutableFloatStateOf(5f) }
+    var bruteForceMode by remember { mutableStateOf(false) }
     var isRunning by remember { mutableStateOf(false) }
 
     // Listen to service state via a simple global state or BroadcastReceiver
@@ -131,6 +132,20 @@ fun MainScreen() {
             steps = 29
         )
         
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Switch(
+                checked = bruteForceMode,
+                onCheckedChange = { bruteForceMode = it }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "وضع الاستمرار العنيف (لا يتوقف حتى لو تم الرد)")
+        }
+        
         Spacer(modifier = Modifier.weight(1f))
         
         Button(
@@ -148,6 +163,7 @@ fun MainScreen() {
                             putExtra(CallService.EXTRA_PHONE_NUMBER, phoneNumber)
                             putExtra(CallService.EXTRA_MAX_ATTEMPTS, maxAttempts.toInt())
                             putExtra(CallService.EXTRA_WAIT_TIME, waitTime.toLong() * 1000L)
+                            putExtra(CallService.EXTRA_BRUTE_FORCE, bruteForceMode)
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             context.startForegroundService(intent)

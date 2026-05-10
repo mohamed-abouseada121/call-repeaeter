@@ -22,11 +22,13 @@ class CallService : Service() {
         const val EXTRA_PHONE_NUMBER = "EXTRA_PHONE_NUMBER"
         const val EXTRA_MAX_ATTEMPTS = "EXTRA_MAX_ATTEMPTS"
         const val EXTRA_WAIT_TIME = "EXTRA_WAIT_TIME"
+        const val EXTRA_BRUTE_FORCE = "EXTRA_BRUTE_FORCE"
     }
 
     private var phoneNumber: String = ""
     private var maxAttempts: Int = 0
     private var waitTimeMs: Long = 5000L
+    private var bruteForceMode: Boolean = false
     private var attemptsCount: Int = 0
     private var isRunning: Boolean = false
     private var lastCallTime: Long = 0
@@ -45,6 +47,7 @@ class CallService : Service() {
                 phoneNumber = intent.getStringExtra(EXTRA_PHONE_NUMBER) ?: ""
                 maxAttempts = intent.getIntExtra(EXTRA_MAX_ATTEMPTS, 0)
                 waitTimeMs = intent.getLongExtra(EXTRA_WAIT_TIME, 5000L)
+                bruteForceMode = intent.getBooleanExtra(EXTRA_BRUTE_FORCE, false)
                 
                 if (phoneNumber.isNotEmpty() && !isRunning) {
                     isRunning = true
@@ -96,7 +99,7 @@ class CallService : Service() {
             if (!isRunning) return@postDelayed
             
             val wasAnswered = CallLogHelper.wasLastCallAnswered(this, phoneNumber, lastCallTime)
-            if (wasAnswered) {
+            if (wasAnswered && !bruteForceMode) {
                 Toast.makeText(this, getString(R.string.status_answered), Toast.LENGTH_LONG).show()
                 updateNotification(getString(R.string.status_answered))
                 stopAutoRedial()
