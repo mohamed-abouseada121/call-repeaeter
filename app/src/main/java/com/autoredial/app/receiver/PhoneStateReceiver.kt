@@ -7,7 +7,9 @@ import android.telephony.TelephonyManager
 import com.autoredial.app.service.CallService
 
 class PhoneStateReceiver : BroadcastReceiver() {
-    private var lastState = TelephonyManager.EXTRA_STATE_IDLE
+    companion object {
+        var lastState: String? = null
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == TelephonyManager.ACTION_PHONE_STATE_CHANGED) {

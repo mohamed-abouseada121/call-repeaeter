@@ -3,6 +3,7 @@ package com.autoredial.app.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.CallLog
+import android.telephony.PhoneNumberUtils
 
 object CallLogHelper {
     
@@ -24,7 +25,7 @@ object CallLogHelper {
                     val type = it.getInt(it.getColumnIndex(CallLog.Calls.TYPE))
 
                     // Check if the last call was an outgoing call to our target number
-                    if (type == CallLog.Calls.OUTGOING_TYPE && number == targetNumber) {
+                    if (type == CallLog.Calls.OUTGOING_TYPE && (number == targetNumber || PhoneNumberUtils.compare(context, number, targetNumber))) {
                         val duration = durationStr.toIntOrNull() ?: 0
                         return duration > 0 // If duration > 0, it means it was answered
                     }
